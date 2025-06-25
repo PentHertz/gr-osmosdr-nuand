@@ -77,7 +77,7 @@
 #include <airspyhf_source_c.h>
 #endif
 
-#ifdef ENABLE_HYDRASDRAdd commentMore actions
+#ifdef ENABLE_HYDRASDR
 #include <hydrasdr_source_c.h>
 #endif
 
@@ -179,6 +179,10 @@ devices_t device::find(const device_t &hint)
 #endif
 #ifdef ENABLE_RFSPACE
   for (std::string dev : rfspace_source_c::get_devices( fake ))
+    devices.push_back( device_t(dev) );
+#endif
+#ifdef ENABLE_HYDRASDR
+  for (std::string dev : hydrasdr_source_c::get_devices())
     devices.push_back( device_t(dev) );
 #endif
 #ifdef ENABLE_AIRSPY
