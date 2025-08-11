@@ -324,12 +324,11 @@ void bladerf_common::init(dict_t const &dict, bladerf_direction direction)
     }
   } else {
     _feature = BLADERF_FEATURE_DEFAULT;
-    BLADERF_DEBUG( "Feature not provided. Feature left on DEFAULT");
   }
 
   status = bladerf_enable_feature(_dev.get(), _feature, true);
   if (status != 0) {
-    BLADERF_THROW_STATUS(status, "Unabled to set feature");
+    BLADERF_THROW_STATUS(status, "Unable to set feature");
   } else {
     std::string feature_text = (_feature == BLADERF_FEATURE_OVERSAMPLE) ? "OVERSAMPLE" : "DEFAULT";
     BLADERF_INFO(feature_text + " feature enabled");
@@ -339,19 +338,19 @@ void bladerf_common::init(dict_t const &dict, bladerf_direction direction)
   if (dict.count("sample_format")) {
     if (_get(dict, "sample_format") == "16" || _get(dict, "sample_format") == "16bit") {
         _format = BLADERF_FORMAT_SC16_Q11;
-        BLADERF_INFO("Sample format set to 16bit")
+        BLADERF_INFO("Sample format set to 16bit");
     } else if (_get(dict, "sample_format") == "16packed" || _get(dict, "sample_format") == "16bit_packed") {
         _format = BLADERF_FORMAT_SC16_Q11_PACKED;
-        BLADERF_INFO("Sample format set to 16bit packed")
+        BLADERF_INFO("Sample format set to 16bit packed");
     } else if (_get(dict, "sample_format") == "8" || _get(dict, "sample_format") == "8bit") {
         _format = BLADERF_FORMAT_SC8_Q7;
-        BLADERF_INFO("Sample format set to 8bit")
+        BLADERF_INFO("Sample format set to 8bit");
     } else {
         BLADERF_THROW("Specified sample format invalid. Valid formats: [16bit|16bit_packed|8bit]");
     }
   } else {
     _format = BLADERF_FORMAT_SC16_Q11;
-    BLADERF_DEBUG( "Sample format not provided. SC16 Q11 set by default");
+    BLADERF_DEBUG( "Sample format not provided. SC16 Q11 set by default.");
   }
 
   if (dict.count("enable_metadata") > 0) {

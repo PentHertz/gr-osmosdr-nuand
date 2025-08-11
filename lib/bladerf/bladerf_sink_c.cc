@@ -385,12 +385,11 @@ int bladerf_sink_c::transmit_with_tags(void const *samples,
         break;
 
       default:
+        ++_failures;
+        BLADERF_WARNING("Unrecognized bladeRF format. Defaulting to SC16_Q11/SC16_Q11_META packing scheme.");
         status = bladerf_sync_tx(_dev.get(),
                                  static_cast<void const *>(&((int16_t *)samples)[2 * start_idx]),
                                  count, &meta, _stream_timeout);
-        ++_failures;
-        BLADERF_WARNING("Unrecognized bladeRF format. Defaulting to \
-                        SC16_Q11/SC16_Q11_META packing scheme.");
         break;
       }
 
@@ -431,7 +430,7 @@ int bladerf_sink_c::transmit_with_tags(void const *samples,
 
     BLADERF_DEBUG("TXing SOB [" << start_idx << ":" << end_idx << "]");
 
-  if (_format == BLADERF_FORMAT_SC8_Q7 || _format == BLADERF_FORMAT_SC8_Q7_META) {
+    if (_format == BLADERF_FORMAT_SC8_Q7 || _format == BLADERF_FORMAT_SC8_Q7_META) {
       status = bladerf_sync_tx(_dev.get(),
                               static_cast<void const *>(&((int8_t *)samples)[2 * start_idx]),
                               count, &meta, _stream_timeout);
@@ -440,7 +439,7 @@ int bladerf_sink_c::transmit_with_tags(void const *samples,
                               static_cast<void const *>(&((int16_t *)samples)[2 * start_idx]),
                               count, &meta, _stream_timeout);
     }
-}
+  }
 
   return status;
 }
